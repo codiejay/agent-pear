@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { getSignals } from '@/shared/lib/api/getSignals';
 import { enrichSignals } from '@/shared/lib/utils/enrichSignal';
-import { filterSignals, generateCategoryOptions, type CategoryType } from '../utils/filterSignals';
+import { filterSignals, generateCategoryOptions } from '../utils/filterSignals';
 import type { EnrichedSignal } from '@/types/Signal';
 import type { FilterOption } from '@/features/layout/components/FilterCard';
 
@@ -42,7 +42,7 @@ export function useSignals(options: UseSignalsOptions = {}) {
     const engines = searchParams.get('engines')?.split(',') || [];
     const timeframe = searchParams.get('timeframe') as TimeframeType;
     const categories = (searchParams.get('categories')?.split(',') || [])
-      .map(cat => cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase()) as CategoryType[];
+      .map(cat => cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase());
     return {
       engines,
       timeframe: timeframe === '24h' || timeframe === '7d' ? timeframe : undefined,

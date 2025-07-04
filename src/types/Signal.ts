@@ -34,8 +34,8 @@ export interface EnrichedSignal extends BaseSignal {
   engine: "Hyperliquid" | "SYMM" | "Vertex" | "GMX" | "both";
   
   // Two types of categories for different filtering needs
-  tradingCategory: "AI" | "Gaming" | "Meme" | "DeFi" | "Other";
-  tokenCategory: "Layer1" | "DeFi" | "Gaming" | "Infrastructure" | "Meme" | "Other";
+  tradingCategory: string;
+  tokenCategory: string;
   
   // Human-readable descriptions
   tradingStyle: string; // Explanation of the trading approach

@@ -1,12 +1,10 @@
 import { EnrichedSignal } from "@/types/Signal";
 import { FilterOption } from "@/features/layout/components/FilterCard";
 
-export type CategoryType = "AI" | "Gaming" | "Meme" | "DeFi" | "Other" | "Layer1" | "Infrastructure";
-
 interface FilterOptions {
   engines?: string[];
   timeframe?: '24h' | '7d' | 'all';
-  categories?: CategoryType[]; // Add categories to filter options
+  categories?: string[]; // Updated to string[]
   // We'll add more filter options here as we need them
 }
 
@@ -30,10 +28,9 @@ export function filterByEngines(signals: EnrichedSignal[], engines: string[]): E
  * @param categories - Array of categories to filter by
  * @returns Filtered array of signals
  */
-export const filterByCategories = (signals: EnrichedSignal[], categories: CategoryType[]): EnrichedSignal[] => {
+export const filterByCategories = (signals: EnrichedSignal[], categories: string[]): EnrichedSignal[] => {
   if (!categories?.length) return signals;
 
-  
   return signals.filter(signal => {
     const signalCategories = [signal.tradingCategory.toLowerCase()];
     

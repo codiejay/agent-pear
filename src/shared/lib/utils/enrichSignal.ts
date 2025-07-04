@@ -71,7 +71,7 @@ function determineEngine(asset1: string, asset2: string): EnrichedSignal['engine
  * Determines the trading strategy category based on signal metrics
  * This helps users understand the type of trading opportunity
  */
-function determineTradingCategory(signal: BaseSignal): EnrichedSignal['tradingCategory'] {
+function determineTradingCategory(signal: BaseSignal): string {
   // Create a hash from the asset pair to ensure consistent categorization
   const pairHash = hashString(signal.asset1_id + signal.asset2_id);
   const rand = seededRandom(pairHash);
@@ -87,14 +87,14 @@ function determineTradingCategory(signal: BaseSignal): EnrichedSignal['tradingCa
  * Determines the token category based on asset characteristics
  * Used for filtering and grouping similar assets
  */
-function determineTokenCategory(signal: BaseSignal): EnrichedSignal['tokenCategory'] {
+function determineTokenCategory(signal: BaseSignal): string {
   const asset1 = signal.asset1_id;
   const asset2 = signal.asset2_id;
 
   // Check both assets against each category
   for (const [category, tokens] of Object.entries(TOKEN_CATEGORIES)) {
     if (tokens.includes(asset1) || tokens.includes(asset2)) {
-      return category as EnrichedSignal['tokenCategory'];
+      return category;
     }
   }
 
