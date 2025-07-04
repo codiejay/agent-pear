@@ -4,15 +4,22 @@ import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface MetricItemProps {
   label: string;
-  value: string | number | boolean;
+  value: string | number | boolean | string[];
 }
 
 function MetricItem({ label, value }: MetricItemProps) {
   const EngineTag = () => {
-    const engine = value as string;
+    const engines = value as string[];
     return (
-      <div className="text-[12px] uppercase text-[#40A6A6] bg-[#40A6A6]/10 rounded-[4px] p-[4px] px-[8px] font-semibold">
-        {engine.charAt(0).toUpperCase() + engine.slice(1)}
+      <div className="flex gap-1 flex-wrap">
+        {engines.map((engine) => (
+          <div
+            key={engine}
+            className="text-[12px] uppercase text-[#40A6A6] bg-[#40A6A6]/10 rounded-[4px] p-[4px] px-[8px] font-semibold"
+          >
+            {engine.charAt(0).toUpperCase() + engine.slice(1)}
+          </div>
+        ))}
       </div>
     );
   };
@@ -81,7 +88,7 @@ export const MetricsGrid = ({
     },
     {
       label: "Trading Engine",
-      value: engine.charAt(0).toUpperCase() + engine.slice(1),
+      value: engine,
     },
   ];
 

@@ -18,7 +18,11 @@ export function filterByEngines(signals: EnrichedSignal[], engines: string[]): E
   if (!engines?.length) return signals;
 
   return signals.filter(signal => 
-    engines.some(engine => engine.toLowerCase() === signal.engine.toLowerCase())
+    signal.engine.some(signalEngine => 
+      engines.some(filterEngine => 
+        filterEngine.toLowerCase() === signalEngine.toLowerCase()
+      )
+    )
   );
 }
 

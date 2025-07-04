@@ -31,7 +31,7 @@ export interface BaseSignal {
  */
 export interface EnrichedSignal extends BaseSignal {
   // Added by our engine mapping logic
-  engine: "Hyperliquid" | "SYMM" | "Vertex" | "GMX" | "both";
+  engine: string[];
   
   // Two types of categories for different filtering needs
   tradingCategory: string;
