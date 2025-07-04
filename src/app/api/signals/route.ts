@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
 
 const SIGNALS_API = 'https://pear-stat-arbs.onrender.com/signals/history';
-const SIGNAL_LIMIT = 10;
 
 /**
  * Next.js API Route handler for fetching signals
  * This bypasses CORS issues by proxying the request through our Next.js server
- * Returns the 10 most recent signals
+ * Returns all available signals which will be filtered client-side
  */
 export async function GET() {
   try {
@@ -23,13 +22,10 @@ export async function GET() {
     }
 
     const data = await response.json();
-    
-    // Take only the first 10 signals
-    const limitedSignals = data.signals.slice(0, SIGNAL_LIMIT);
 
     return NextResponse.json({
-      signals: limitedSignals,
-      count: limitedSignals.length
+      signals: data.signals,
+      count: data.signals.length
     });
   } catch (error) {
     console.error('Error fetching signals:', error);

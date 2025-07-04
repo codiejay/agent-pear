@@ -7,24 +7,16 @@ import { filterSignals, generateCategoryOptions } from '../utils/filterSignals';
 import type { EnrichedSignal } from '@/types/Signal';
 import type { FilterOption } from '@/features/layout/components/FilterCard';
 
-interface UseSignalsOptions {
-  limit?: number;
-  offset?: number;
-}
-
 type TimeframeType = '24h' | '7d' | 'all' | undefined;
 
 /**
  * Custom hook for fetching and managing trading signals
  * This hook will be used in any component that needs access to the signals data
  * 
- * @param options.limit - Number of signals to fetch (default: 10)
- * @param options.offset - Number of signals to skip (default: 0)
- * 
  * Example usage in a component:
  * ```tsx
  * function SignalsList() {
- *   const { data, isLoading, error } = useSignals({ limit: 10 });
+ *   const { data, isLoading, error } = useSignals();
  *   
  *   if (isLoading) return <LoadingSpinner />;
  *   if (error) return <ErrorMessage error={error} />;
@@ -33,8 +25,7 @@ type TimeframeType = '24h' | '7d' | 'all' | undefined;
  * }
  * ```
  */
-export function useSignals(options: UseSignalsOptions = {}) {
-  const { limit = 10, offset = 0 } = options;
+export function useSignals() {
   const searchParams = useSearchParams();
   
   // Memoize filter parameters
@@ -51,8 +42,8 @@ export function useSignals(options: UseSignalsOptions = {}) {
   }, [searchParams]);
 
   const query = useQuery({
-    queryKey: ['signals', { limit, offset }],
-    queryFn: () => getSignals({ limit, offset }),
+    queryKey: ['signals'],
+    queryFn: () => getSignals(),
   });
 
   // Memoize the filtered and enriched signals
@@ -75,8 +66,8 @@ export function useSignals(options: UseSignalsOptions = {}) {
     });
 
     return {
-      ...query.data,
       signals: filteredSignals,
+      count: filteredSignals.length,
       availableCategories: generateCategoryOptions(enrichedSignals),
     };
   }, [query.data, filters]);
@@ -87,12 +78,8 @@ export function useSignals(options: UseSignalsOptions = {}) {
   };
 }
 
-// Types for the hook return value
-export type UseSignalsReturn = ReturnType<typeof useSignals>;
 export type SignalsData = {
   count: number;
-  limit: number;
-  offset: number;
   signals: EnrichedSignal[];
   availableCategories: FilterOption[];
 }; 
