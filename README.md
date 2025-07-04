@@ -1,4 +1,4 @@
-## "Ark"itecture insert-wink-wink-emoji
+## "Ark"itecture
 
 ### Feature-Based Structure
 
