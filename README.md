@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## "Ark"itecture insert-wink-wink-emoji
 
-## Getting Started
+### Feature-Based Structure
 
-First, run the development server:
+My approach to this trial was to carefully organize code by domain rather than technical type.
+This approach improves maintainability and makes the codebase more intuitive to navigate.
+Essentially as I was build from scratch, I was able to make this decision.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+So heres is a basic birdseye view of the my feature-based structure.
+
+```
+src/
+├── app/                    # Next.js app router pages
+├── features/              # Feature-based modules: This will only contain the features that are relevant to the project.
+│   ├── layout/           # Layout components and logic: This will contain the layout components and logic for the project.
+│   ├── signals/          # Trading signals feature: This will contain the trading signals feature.
+│   └── wallet/           # Wallet integration: This will contain the wallet integration.
+├── shared/               # Shared utilities and components: This will contain the shared utilities and components across the project.
+└── components/           # UI component library: This will contain the UI component library for the project aka shadcn/ui.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+So here is a modular flow:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 📊 Signals (Cards) (`/features/signals/`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Components: Modular signal display components
+- Hooks: Custom hooks for data fetching and state
+- Utils: Signal processing and filtering utilities
 
-## Learn More
+```typescript
+// Example of feature organization
+/features/signals/
+├── components/           # UI Components
+│   ├── SignalCard/      # Main signal display
+│   └── SignalList/      # Signal list container
+├── hooks/               # Feature-specific hooks
+│   └── useSignals.ts    # Signal data management
+└── utils/               # Utility functions
+    └── filterSignals.ts # Signal filtering logic
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Layout (`/features/layout/`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Components: Layout structure and navigation
+- Hooks: Layout-specific custom hooks
+- Constants: Layout configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+/features/layout/
+├── components/          # Layout components
+│   ├── FilterCard.tsx   # Filter UI component
+│   └── Sidebar.tsx     # Sidebar navigation
+├── hooks/              # Layout hooks
+│   └── useFilterUpdate.ts # Filter state management
+└── constants/          # Layout constants
+    └── filters.ts      # Filter configurations
+```
 
-## Deploy on Vercel
+### State Management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- URL-based state for filters (shareable URLs): This is a key part of implementing proper filtering.
+- React Query for server state
+- React hooks for local state
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎯 Best Practices
+
+1. **Component Organization**
+
+   - One component per file
+   - Clear component responsibilities
+
+2. **Hook Usage**
+
+   - Custom hooks for reusable logic
+   - Memoization!!!!! for expensive calculations
+   - Clear dependency management
+
+## Now your turn
+
+1. **Installation**
+
+   ```bash
+   npm install
+   ```
+
+2. **Development**
+
+   ```bash
+   npm run dev
+   ```
+
+3. **Build**
+   ```bash
+   npm run build
+   ```
+
+## PS
+
+There is hidden treasure in the codebase.
