@@ -7,21 +7,39 @@ import { Footer } from "@/features/layout/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const APP_NAME = "Pear Protocol - Agent-Pear";
+const APP_DEFAULT_TITLE = "Pear Protocol - Agent-Pear";
+const APP_TITLE_TEMPLATE = "%s - Pear Protocol";
+const APP_DESCRIPTION =
+  "Real-time trading signals and analysis for cryptocurrency pairs";
+
 export const metadata: Metadata = {
-  title: "Pear Protocol - Agent-Pear",
-  description:
-    "Real-time trading signals and analysis for cryptocurrency pairs",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
   metadataBase: new URL("https://agent-pear.vercel.app"),
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     type: "website",
-    title: "Pear Protocol - Agent-Pear",
-    description:
-      "Real-time trading signals and analysis for cryptocurrency pairs",
-    siteName: "Agent Pear",
-    url: "https://agent-pear.vercel.app",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
     images: [
       {
-        url: "https://i.ibb.co/ZRRdTJTg/Screenshot-2025-07-04-at-01-58-14.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Agent Pear - Trading Signals Dashboard",
@@ -30,17 +48,23 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pear Protocol - Agent-Pear",
-    description:
-      "Real-time trading signals and analysis for cryptocurrency pairs",
-    images: ["https://i.ibb.co/ZRRdTJTg/Screenshot-2025-07-04-at-01-58-14.png"],
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
     creator: "@pearprotocol",
+    images: ["/og-image.png"],
   },
-  other: {
-    "og:image:width": "1200",
-    "og:image:height": "630",
-    "theme-color": "#080807",
-    "msapplication-TileColor": "#080807",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/shortcut-icon.png",
+    apple: "/apple-icon.png",
   },
 };
 
