@@ -40,25 +40,3 @@ export const engineFilterOptions: FilterOption[] = [
   },
 ];
 
-export const categoryFilterOptions: FilterOption[] = [
-  {
-    id: "defi",
-    label: "DeFi",
-    value: "defi",
-  },
-  {
-    id: "meme",
-    label: "Meme",
-    value: "meme",
-  },
-  {
-    id: "gaming",
-    label: "Gaming",
-    value: "gaming",
-  },
-  {
-    id: "ai",
-    label: "AI",
-    value: "ai",
-  },
-]; 

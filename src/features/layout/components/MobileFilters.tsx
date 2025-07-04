@@ -13,11 +13,9 @@ import {
   TIME_PARAM_KEY,
   ENGINE_PARAM_KEY,
   CATEGORY_PARAM_KEY,
-  timeFilterOptions,
-  engineFilterOptions,
-  categoryFilterOptions,
 } from "../constants/filters";
 import { useFilterUpdate } from "../hooks/useFilterUpdate";
+import { useFilterOptions } from "../hooks/useFilterOptions";
 
 interface MobileFilterDropdownProps {
   title: string;
@@ -113,31 +111,38 @@ export interface MobileFiltersProps {
   isVertical?: boolean;
 }
 
-const FILTER_CARDS_DATA = [
-  {
-    title: "Updates",
-    options: timeFilterOptions,
-    paramKey: TIME_PARAM_KEY,
-    defaultAllText: "Most Recent",
-  },
-  {
-    title: "Engines",
-    options: engineFilterOptions,
-    paramKey: ENGINE_PARAM_KEY,
-    defaultAllText: "All Engines",
-  },
-  {
-    title: "Categories",
-    options: categoryFilterOptions,
-    paramKey: CATEGORY_PARAM_KEY,
-    defaultAllText: "All Categories",
-  },
-];
-
 export function MobileFilters({
   className,
   isVertical = false,
 }: MobileFiltersProps) {
+  const { timeFilterOptions, engineFilterOptions, categoryFilterOptions } =
+    useFilterOptions();
+
+  const FILTER_CARDS_DATA = [
+    {
+      title: "Updates",
+      options: timeFilterOptions,
+      paramKey: TIME_PARAM_KEY,
+      defaultAllText: "Most Recent",
+    },
+    {
+      title: "Engines",
+      options: engineFilterOptions,
+      paramKey: ENGINE_PARAM_KEY,
+      defaultAllText: "All Engines",
+    },
+    ...(categoryFilterOptions.length > 0
+      ? [
+          {
+            title: "Categories",
+            options: categoryFilterOptions,
+            paramKey: CATEGORY_PARAM_KEY,
+            defaultAllText: "All Categories",
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div
       className={cn(
