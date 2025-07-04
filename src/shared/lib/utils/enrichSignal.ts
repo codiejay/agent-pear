@@ -1,12 +1,13 @@
 import { BaseSignal, EnrichedSignal } from '@/types/Signal';
-import { HYPERLIQUID_TOKENS, SYMM_TOKENS, getBaseToken, TOKEN_CATEGORIES } from '../constants/tokenMappings';
+import { 
+  HYPERLIQUID_TOKENS, 
+  VERTEX_TOKENS, 
+  GMX_TOKENS, 
+  getBaseToken, 
+  TOKEN_CATEGORIES 
+} from '../constants/tokenMappings';
 import { formatTimeAgo } from './formatTime';
 
-// Log available tokens
-console.log('Available tokens in sets:', {
-  'Hyperliquid tokens': Array.from(HYPERLIQUID_TOKENS),
-  'Symm tokens': Array.from(SYMM_TOKENS)
-});
 
 // Simple hash function to generate deterministic numbers from strings
 function hashString(str: string): number {
@@ -27,44 +28,27 @@ function seededRandom(seed: number): number {
 
 /**
  * Determines which trading engines support a given token pair
- * Used to show where the trade can be executed
- * Returns full engine names and defaults to one of the available engines
+ * Returns an array of engine names that support both tokens
  */
-function determineEngine(asset1: string, asset2: string): EnrichedSignal['engine'] {
-  // Convert to uppercase and append USDT if not present
-  const a1 = asset1.toUpperCase().endsWith('USDT') ? asset1.toUpperCase() : `${asset1.toUpperCase()}USDT`;
-  const a2 = asset2.toUpperCase().endsWith('USDT') ? asset2.toUpperCase() : `${asset2.toUpperCase()}USDT`;
+function getSupportedEngines(token1: string, token2: string): string[] {
+  const normalized1 = token1.toUpperCase();
+  const normalized2 = token2.toUpperCase();
+  const engines: string[] = [];
 
-  console.log('Engine check:', {
-    'Original tokens': { asset1, asset2 },
-    'Normalized tokens': { a1, a2 },
-    'In Hyperliquid': {
-      [a1]: HYPERLIQUID_TOKENS.has(a1),
-      [a2]: HYPERLIQUID_TOKENS.has(a2)
-    },
-    'In Symm': {
-      [a1]: SYMM_TOKENS.has(a1),
-      [a2]: SYMM_TOKENS.has(a2)
-    }
-  });
+  // SYMM is default
+  engines.push('SYMM');
 
-  // Check if tokens are in each platform
-  const inHyper = HYPERLIQUID_TOKENS.has(a1) && HYPERLIQUID_TOKENS.has(a2);
-  const inSymm = SYMM_TOKENS.has(a1) && SYMM_TOKENS.has(a2);
+  // Check additional platforms
+  if (HYPERLIQUID_TOKENS.has(normalized1) && HYPERLIQUID_TOKENS.has(normalized2))
+    engines.push('Hyperliquid');
 
-  // If available on both platforms, show 'both'
-  if (inHyper && inSymm) return 'both';
-  if (inHyper) return 'Hyperliquid';
-  if (inSymm) return 'SYMM';
+  if (VERTEX_TOKENS.has(normalized1) && VERTEX_TOKENS.has(normalized2))
+    engines.push('Vertex');
 
-  // For unknown pairs, use a deterministic assignment based on token names
-  const seed = hashString(a1 + a2);
-  const rand = seededRandom(seed);
-  
-  if (rand < 0.5) return 'Hyperliquid';
-  if (rand < 0.67) return 'SYMM';
-  if (rand < 0.84) return 'Vertex';
-  return 'GMX';
+  if (GMX_TOKENS.has(normalized1) && GMX_TOKENS.has(normalized2))
+    engines.push('GMX');
+
+  return engines;
 }
 
 /**
@@ -167,7 +151,7 @@ export function enrichSignal(signal: BaseSignal): EnrichedSignal {
     ...signal,
     asset1_id: asset1,
     asset2_id: asset2,
-    engine: determineEngine(asset1, asset2),
+    engine: getSupportedEngines(asset1, asset2),
     tradingCategory: determineTradingCategory(signal),
     tokenCategory: determineTokenCategory(signal),
     tradingStyle: generateTradingStyle(signal),
