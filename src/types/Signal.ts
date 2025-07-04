@@ -54,16 +54,4 @@ export interface SignalsResponse {
   count: number;
   limit: number;
   offset: number;
-}
-
-export interface Signal {
-  id: string;
-  sent_at: string;
-  token: string;
-  pair: string;
-}
-
-export interface EnrichedSignal extends Signal {
-  timeAgo: string;
-  categories: string[];
 } 

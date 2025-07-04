@@ -147,7 +147,7 @@ export function enrichSignal(signal: BaseSignal): EnrichedSignal {
   const asset1 = signal.asset1_id.toUpperCase();
   const asset2 = signal.asset2_id.toUpperCase();
 
-  const enriched = {
+  const enriched: EnrichedSignal = {
     ...signal,
     asset1_id: asset1,
     asset2_id: asset2,
