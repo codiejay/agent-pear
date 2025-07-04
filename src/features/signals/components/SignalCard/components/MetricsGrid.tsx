@@ -18,14 +18,23 @@ function MetricItem({ label, value }: MetricItemProps) {
   };
 
   const MetricValue = () => {
-    return label === "Trading Engine" ? (
-      <EngineTag />
-    ) : (
+    if (label === "Trading Engine") {
+      return <EngineTag />;
+    }
+    if (label === "Spread") {
+      return (
+        <div className="text-[12px] font-semibold text-white">
+          ${typeof value === "number" ? value.toFixed(2) : value}
+        </div>
+      );
+    }
+    return (
       <div className="text-[12px] font-semibold text-white">
         {typeof value === "boolean" ? (value ? "True" : "False") : value}
       </div>
     );
   };
+
   return (
     <HoverCard>
       <HoverCardTrigger asChild>

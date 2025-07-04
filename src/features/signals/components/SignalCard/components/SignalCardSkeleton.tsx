@@ -10,7 +10,7 @@ function SingleCardSkeleton({ className }: SignalCardSkeletonProps) {
   return (
     <Card
       className={cn(
-        "bg-[#0E140F]/10 pt-[0px] border-none w-full min-w-[398px] [@media(min-width:1024px)]:min-w-[664px] [@media(max-width:834px)]:max-w-[667px] [@media(max-width:430px)]:max-w-[398px]",
+        "bg-[#0E140F] pt-[0px] border-none w-full min-w-[398px] [@media(min-width:1024px)]:min-w-[664px] [@media(max-width:834px)]:max-w-[667px] [@media(max-width:430px)]:max-w-[398px]",
         className
       )}
     >
@@ -24,13 +24,13 @@ function SingleCardSkeleton({ className }: SignalCardSkeletonProps) {
         {/* Trading Pair Bar */}
         <div className="relative">
           <div className="flex w-full h-[48px] rounded-md overflow-hidden">
-            <Skeleton className="w-1/2 h-full bg-[#A2DB5C]/60" />{" "}
+            <Skeleton className="w-1/2 rounded-none h-full bg-[#A2DB5C]/60" />{" "}
             {/* Left side */}
-            <Skeleton className="w-1/2 h-full bg-[#DB5C5C]/60" />{" "}
+            <Skeleton className="w-1/2 rounded-none h-full bg-[#DB5C5C]/60" />{" "}
             {/* Right side */}
           </div>
-          <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-between items-center px-4">
-            <div className="flex items-center gap-2">
+          <div className="absolute w-full top-0 left-0 right-0 bottom-0 flex justify-between items-center px-4">
+            <div className="flex items-center justify-center gap-2">
               <Skeleton className="h-8 w-8 rounded-full" />
               <Skeleton className="h-6 w-16" />
             </div>

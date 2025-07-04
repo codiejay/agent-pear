@@ -4,6 +4,7 @@ import { useSignals } from "../../hooks/useSignals";
 import { SignalCard } from "../SignalCard";
 import { cn } from "@/lib/utils";
 import { SignalCardSkeleton } from "../SignalCard/components/SignalCardSkeleton";
+import { EmptyState } from "../SignalCard/components/EmptyState";
 import { EnrichedSignal } from "@/types/Signal";
 
 interface SignalListProps {
@@ -29,6 +30,8 @@ export function SignalList({ className }: SignalListProps) {
     );
   }
 
+  const hasNoSignals = !signals || signals.length === 0;
+
   return (
     <div
       className={cn(
@@ -36,9 +39,13 @@ export function SignalList({ className }: SignalListProps) {
         className
       )}
     >
-      {signals?.map((signal: EnrichedSignal) => (
-        <SignalCard key={signal.id} signal={signal} />
-      ))}
+      {hasNoSignals ? (
+        <EmptyState />
+      ) : (
+        signals.map((signal: EnrichedSignal) => (
+          <SignalCard key={signal.id} signal={signal} />
+        ))
+      )}
     </div>
   );
 }

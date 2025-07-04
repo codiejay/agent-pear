@@ -13,7 +13,7 @@ export const PriceDisplayAndCategory = ({
   return (
     <div className={cn("flex items-center gap-2 bg-[#080C03]", className)}>
       <span className="text-[24px] font-bold text-white">
-        {price.toFixed(2)}
+        ${price.toFixed(2)}
       </span>
       <Badge
         className={cn(
