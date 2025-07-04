@@ -67,14 +67,14 @@ export function useSignals() {
     if (filters.searchToken || filters.searchPair) {
       filteredSignals = enrichedSignals.filter(signal => {
         const matchesToken = !filters.searchToken || (
-          (signal.asset1_id?.toLowerCase().includes(filters.searchToken.toLowerCase()) ||
-           signal.asset2_id?.toLowerCase().includes(filters.searchToken.toLowerCase()))
+          signal.asset1_id.toLowerCase().includes(filters.searchToken.toLowerCase()) ||
+          signal.asset2_id.toLowerCase().includes(filters.searchToken.toLowerCase())
         );
         
         const searchPairLower = filters.searchPair?.toLowerCase() || '';
         const matchesPair = !filters.searchPair || (
-          signal.asset1_id?.toLowerCase().includes(searchPairLower) ||
-          signal.asset2_id?.toLowerCase().includes(searchPairLower)
+          signal.asset1_id.toLowerCase().includes(searchPairLower) ||
+          signal.asset2_id.toLowerCase().includes(searchPairLower)
         );
 
         return matchesToken && matchesPair;

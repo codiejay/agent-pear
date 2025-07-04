@@ -27,22 +27,22 @@ export interface BaseSignal {
 
 /**
  * Enriched signal type with our custom fields
- * These fields will be added by our enrichment logic in lib/utils/enrichSignal.ts
+ * These fields are added by our enrichment logic in lib/utils/enrichSignal.ts
  */
 export interface EnrichedSignal extends BaseSignal {
   // Added by our engine mapping logic
   engine: string[];
   
-  // Two types of categories for different filtering needs
+  // Categories for filtering
   tradingCategory: string;
   tokenCategory: string;
   
   // Human-readable descriptions
-  tradingStyle: string; // Explanation of the trading approach
-  remarks: string;      // Additional context and insights
+  tradingStyle: string;
+  remarks: string;
   
   // Formatted time for UI
-  timeAgo: string;      // Relative time (e.g., "2 hours ago")
+  timeAgo: string;
 }
 
 /**
