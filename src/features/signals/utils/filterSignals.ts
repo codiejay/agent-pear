@@ -1,4 +1,5 @@
 import { EnrichedSignal } from "@/types/Signal";
+import { FilterOption } from "@/features/layout/components/FilterCard";
 
 export type CategoryType = "AI" | "Gaming" | "Meme" | "DeFi" | "Other" | "Layer1" | "Infrastructure";
 
@@ -94,4 +95,24 @@ export function filterSignals(signals: EnrichedSignal[], options: FilterOptions)
   }
 
   return filteredSignals;
+}
+
+/**
+ * Generates category filter options from available signals
+ * Only includes categories that are present in the current signals
+ */
+export function generateCategoryOptions(signals: EnrichedSignal[]): FilterOption[] {
+  const categories = new Set<string>();
+  
+  signals.forEach(signal => {
+    if (signal.tradingCategory) {
+      categories.add(signal.tradingCategory.toLowerCase());
+    }
+  });
+
+  return Array.from(categories).map(category => ({
+    id: category,
+    label: category.charAt(0).toUpperCase() + category.slice(1),
+    value: category,
+  }));
 } 

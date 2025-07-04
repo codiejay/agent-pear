@@ -3,8 +3,9 @@ import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { getSignals } from '@/shared/lib/api/getSignals';
 import { enrichSignals } from '@/shared/lib/utils/enrichSignal';
-import { filterSignals, type CategoryType } from '../utils/filterSignals';
+import { filterSignals, generateCategoryOptions, type CategoryType } from '../utils/filterSignals';
 import type { EnrichedSignal } from '@/types/Signal';
+import type { FilterOption } from '@/features/layout/components/FilterCard';
 
 interface UseSignalsOptions {
   limit?: number;
@@ -76,6 +77,7 @@ export function useSignals(options: UseSignalsOptions = {}) {
     return {
       ...query.data,
       signals: filteredSignals,
+      availableCategories: generateCategoryOptions(enrichedSignals),
     };
   }, [query.data, filters]);
 
@@ -92,4 +94,5 @@ export type SignalsData = {
   limit: number;
   offset: number;
   signals: EnrichedSignal[];
+  availableCategories: FilterOption[];
 }; 

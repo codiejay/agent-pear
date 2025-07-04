@@ -9,12 +9,13 @@ import {
   TIME_PARAM_KEY,
   ENGINE_PARAM_KEY,
   CATEGORY_PARAM_KEY,
-  timeFilterOptions,
-  engineFilterOptions,
-  categoryFilterOptions,
 } from "../constants/filters";
+import { useFilterOptions } from "../hooks/useFilterOptions";
 
 export const Sidebar = ({ className }: Pick<LayoutProps, "className">) => {
+  const { timeFilterOptions, engineFilterOptions, categoryFilterOptions } =
+    useFilterOptions();
+
   const FILTER_CARDS_DATA = [
     {
       title: "Updates",
@@ -29,12 +30,17 @@ export const Sidebar = ({ className }: Pick<LayoutProps, "className">) => {
       paramKey: ENGINE_PARAM_KEY,
       defaultAllText: "All Engines",
     },
-    {
-      title: "Categories",
-      options: categoryFilterOptions,
-      paramKey: CATEGORY_PARAM_KEY,
-      defaultAllText: "All Categories",
-    },
+    // Only include Categories when we have options
+    ...(categoryFilterOptions.length > 0
+      ? [
+          {
+            title: "Categories",
+            options: categoryFilterOptions,
+            paramKey: CATEGORY_PARAM_KEY,
+            defaultAllText: "All Categories",
+          },
+        ]
+      : []),
   ];
   return (
     <aside
