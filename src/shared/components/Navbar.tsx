@@ -13,7 +13,7 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -68,6 +68,33 @@ const SearchInput = ({ className }: { className?: string }) => {
   );
 };
 
+const SearchInputWithSuspense = ({ className }: { className?: string }) => (
+  <Suspense
+    fallback={
+      <div
+        className={`relative w-[133px] flex items-center rounded-[8px] h-[42px] bg-[#080807] ${className}`}
+      >
+        <Image
+          src="/search-icon.svg"
+          alt="Search"
+          width={25}
+          height={25}
+          className="absolute left-[8px]"
+        />
+        <Input
+          name="search"
+          type="text"
+          placeholder="Loading..."
+          className="pl-[41px] border-none"
+          disabled
+        />
+      </div>
+    }
+  >
+    <SearchInput className={className} />
+  </Suspense>
+);
+
 const NavigationItems = () => (
   <>
     {navigationItems.map((item) => (
@@ -120,7 +147,7 @@ export function Navbar() {
           <div className="flex items-center space-x-[8px]">
             {/* Search - Hide on mobile */}
             <div className="hidden [@media(min-width:435px)]:block">
-              <SearchInput />
+              <SearchInputWithSuspense />
             </div>
 
             {/* Connect Wallet Button */}
@@ -150,7 +177,7 @@ export function Navbar() {
                   <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                   {/* Show search on mobile */}
                   <div className="[@media(max-width:435px)]:flex hidden mb-[24px] justify-between w-full">
-                    <SearchInput className="w-[364px]" />
+                    <SearchInputWithSuspense className="w-[364px]" />
                     <IconButton
                       src="/user-default-icon.svg"
                       alt="User Profile"

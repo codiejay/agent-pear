@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Search } from "lucide-react";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 interface HeaderCardProps {
   className?: string;
@@ -16,14 +16,7 @@ interface HeaderCardProps {
   imageAlt?: string;
 }
 
-export function HeaderCard({
-  className,
-  title,
-  version,
-  description,
-  imagePath,
-  imageAlt = "Logo",
-}: HeaderCardProps) {
+const SearchBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -42,6 +35,58 @@ export function HeaderCard({
     router.replace(`${pathname}?${params.toString()}`);
   }, [debouncedSearch, pathname, router, searchParams]);
 
+  return (
+    <div className="relative">
+      <Search
+        className={cn(
+          "absolute left-[16px] top-1/2 -translate-y-1/2 w-4 h-4 text-[#ffffff]"
+        )}
+      />
+      <input
+        type="text"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Search tokens (BTC)"
+        className={cn(
+          "w-full h-[42px] bg-[#0C0D0A] rounded-lg pl-10 pr-4 text-[14px] text-[#ffffff] placeholder-[#717171] outline-none border border-[#222822] focus:border-[#2B2F2C]"
+        )}
+      />
+    </div>
+  );
+};
+
+const SearchBarWithSuspense = () => (
+  <Suspense
+    fallback={
+      <div className="relative">
+        <Search
+          className={cn(
+            "absolute left-[16px] top-1/2 -translate-y-1/2 w-4 h-4 text-[#ffffff]"
+          )}
+        />
+        <input
+          type="text"
+          placeholder="Loading..."
+          disabled
+          className={cn(
+            "w-full h-[42px] bg-[#0C0D0A] rounded-lg pl-10 pr-4 text-[14px] text-[#ffffff] placeholder-[#717171] outline-none border border-[#222822]"
+          )}
+        />
+      </div>
+    }
+  >
+    <SearchBar />
+  </Suspense>
+);
+
+export function HeaderCard({
+  className,
+  title,
+  version,
+  description,
+  imagePath,
+  imageAlt = "Logo",
+}: HeaderCardProps) {
   return (
     <div className={cn("flex flex-col gap-[16px]", className)}>
       {/* Header */}
@@ -75,22 +120,7 @@ export function HeaderCard({
       </div>
 
       {/* Search Bar */}
-      <div className="relative">
-        <Search
-          className={cn(
-            "absolute left-[16px] top-1/2 -translate-y-1/2 w-4 h-4 text-[#ffffff]"
-          )}
-        />
-        <input
-          type="text"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Search tokens (BTC)"
-          className={cn(
-            "w-full h-[42px] bg-[#0C0D0A] rounded-lg pl-10 pr-4 text-[14px] text-[#ffffff] placeholder-[#717171] outline-none border border-[#222822] focus:border-[#2B2F2C]"
-          )}
-        />
-      </div>
+      <SearchBarWithSuspense />
     </div>
   );
 }
