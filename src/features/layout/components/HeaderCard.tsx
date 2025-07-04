@@ -3,6 +3,9 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Search } from "lucide-react";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 interface HeaderCardProps {
   className?: string;
@@ -21,6 +24,24 @@ export function HeaderCard({
   imagePath,
   imageAlt = "Logo",
 }: HeaderCardProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState(
+    searchParams.get("searchToken") || ""
+  );
+  const debouncedSearch = useDebounce(searchValue);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (debouncedSearch) {
+      params.set("searchToken", debouncedSearch);
+    } else {
+      params.delete("searchToken");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [debouncedSearch, pathname, router, searchParams]);
+
   return (
     <div className={cn("flex flex-col gap-[16px]", className)}>
       {/* Header */}
@@ -62,6 +83,8 @@ export function HeaderCard({
         />
         <input
           type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search tokens (BTC)"
           className={cn(
             "w-full h-[42px] bg-[#0C0D0A] rounded-lg pl-10 pr-4 text-[14px] text-[#ffffff] placeholder-[#717171] outline-none border border-[#222822] focus:border-[#2B2F2C]"

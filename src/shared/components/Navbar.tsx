@@ -13,7 +13,9 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const navigationItems = [
   { name: "Dashboard", href: "/" },
@@ -24,25 +26,47 @@ const navigationItems = [
   { name: "More", href: "#" },
 ];
 
-const SearchInput = ({ className }: { className?: string }) => (
-  <div
-    className={`relative w-[133px] flex items-center rounded-[8px] h-[42px] bg-[#080807] ${className}`}
-  >
-    <Image
-      src="/search-icon.svg"
-      alt="Search"
-      width={25}
-      height={25}
-      className="absolute left-[8px]"
-    />
-    <Input
-      name="search"
-      type="text"
-      placeholder="Search Pair"
-      className="pl-[41px] border-none"
-    />
-  </div>
-);
+const SearchInput = ({ className }: { className?: string }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState(
+    searchParams.get("searchPair") || ""
+  );
+  const debouncedSearch = useDebounce(searchValue);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (debouncedSearch) {
+      params.set("searchPair", debouncedSearch);
+    } else {
+      params.delete("searchPair");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [debouncedSearch, pathname, router, searchParams]);
+
+  return (
+    <div
+      className={`relative w-[133px] flex items-center rounded-[8px] h-[42px] bg-[#080807] ${className}`}
+    >
+      <Image
+        src="/search-icon.svg"
+        alt="Search"
+        width={25}
+        height={25}
+        className="absolute left-[8px]"
+      />
+      <Input
+        name="search"
+        type="text"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Search Pair"
+        className="pl-[41px] border-none"
+      />
+    </div>
+  );
+};
 
 const NavigationItems = () => (
   <>
