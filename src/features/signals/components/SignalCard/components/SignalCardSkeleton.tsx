@@ -8,7 +8,12 @@ interface SignalCardSkeletonProps {
 
 function SingleCardSkeleton({ className }: SignalCardSkeletonProps) {
   return (
-    <Card className={cn("bg-[#0E140F]/10 pt-[0px]", className)}>
+    <Card
+      className={cn(
+        "bg-[#0E140F]/10 pt-[0px] border-none w-full min-w-[398px] [@media(min-width:1024px)]:min-w-[664px] [@media(max-width:834px)]:max-w-[667px] [@media(max-width:430px)]:max-w-[398px]",
+        className
+      )}
+    >
       <CardContent className="p-6 space-y-[16px]">
         {/* Header with Alert and timestamp */}
         <div className="flex justify-between items-center">
@@ -98,7 +103,7 @@ export function SignalCardSkeleton({
   return (
     <div
       className={cn(
-        "w-[664px] max-w-[664px] flex flex-col gap-[24px]",
+        "w-full max-w-[664px] [@media(max-width:834px)]:max-w-[667px] [@media(max-width:430px)]:max-w-[398px] flex flex-col gap-[24px]",
         className
       )}
     >

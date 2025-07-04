@@ -6,7 +6,7 @@ import { SignalList } from "@/features/signals/components/SignalList";
 
 export default function Home() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="h-screen w-screen"></div>}>
       <MainLayout>
         <div>
           <SignalList />
