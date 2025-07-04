@@ -1,4 +1,4 @@
-## "Ark"itecture insert-wink-wink-emoji
+## "Ark"itecture
 
 ### Feature-Based Structure
 
@@ -96,4 +96,3 @@ So here is a modular flow:
 
 ## PS
 
-There is hidden treasure in the codebase.
